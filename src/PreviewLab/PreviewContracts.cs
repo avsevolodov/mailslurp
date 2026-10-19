@@ -29,11 +29,11 @@ public static class PreviewTargets
 
     public static PreviewRequest Validate(PreviewRequest? request)
     {
-        if (request?.Subject is not { Length: > 0 and <= 200 } subject ||
-            string.IsNullOrWhiteSpace(subject))
+        if (request?.Subject is null || request.Subject.Length is < 1 or > 200 ||
+            string.IsNullOrWhiteSpace(request.Subject))
             throw new PreviewException(400, "Subject must be 1–200 characters.");
-        if (request.Html is not { Length: > 0 and <= 120000 } html ||
-            string.IsNullOrWhiteSpace(html))
+        if (request.Html is null || request.Html.Length is < 1 or > 120000 ||
+            string.IsNullOrWhiteSpace(request.Html))
             throw new PreviewException(400, "HTML must be 1–120,000 characters.");
 
         var requestedTargets = request.Targets;
@@ -42,7 +42,7 @@ public static class PreviewTargets
             requestedTargets.Any(id => !All.Any(t => t.Id == id)))
             throw new PreviewException(400, "Choose 1–6 supported email clients.");
 
-        return request with { Subject = subject.Trim() };
+        return request with { Subject = request.Subject.Trim() };
     }
 }
 
@@ -101,7 +101,8 @@ public static class ResultNormalizer
                 Name = targets[i].Name
             })
             .Where(x => x.Key is not null)
-            .ToDictionary(x => x.Key!, x => x.Name, StringComparer.Ordinal);
+            .GroupBy(x => x.Key!, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.First().Name, StringComparer.Ordinal);
 
         var screenshots = new List<ScreenshotResult>();
         foreach (var screenshot in JsonFields.Array(payload, "screenshots"))

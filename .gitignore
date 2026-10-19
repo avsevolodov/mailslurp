@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+.env
+.env.*
+!.env.example
+.DS_Store
+coverage/

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>MailSlurp · Email Preview Lab</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="MailSlurp Preview Lab">
+        <span class="brand-icon" aria-hidden="true">✉</span>
+        <span>MailSlurp <span class="brand-muted">/ Preview Lab</span></span>
+      </a>
+      <div class="topright"><span class="dot" id="connection-dot"></span><span id="connection">Проверяем подключение</span></div>
+    </header>
+    <main>
+      <section class="intro">
+        <div class="eyebrow">EMAIL QUALITY ASSURANCE <span class="eyebrow-line"></span> DEVICE RENDERING</div>
+        <h1>Проверьте письмо.<br><span class="gradient">На каждом экране.</span></h1>
+        <p>Отправьте тестовое HTML-письмо и сравните, как оно выглядит в Gmail, Outlook и Apple Mail. Скриншоты появятся по мере готовности.</p>
+      </section>
+
+      <div class="layout">
+        <section class="panel editor" aria-labelledby="compose-title">
+          <div class="panel-heading">
+            <div><div class="step">01 / COMPOSE</div><h2 id="compose-title">Тестовое письмо</h2></div>
+            <span class="tag">HTML</span>
+          </div>
+          <form id="preview-form">
+            <label for="subject">Тема письма</label>
+            <input id="subject" name="subject" required maxlength="200" value="Ваше тестовое письмо · MailSlurp Preview" placeholder="Например: Рассылка #127">
+            <div class="field-heading"><label for="html">HTML-код</label><span class="hint">Максимум 120 КБ</span></div>
+            <textarea id="html" name="html" rows="13" required spellcheck="false"></textarea>
+            <div class="divider"></div>
+            <div class="field-heading">
+              <div><div class="step">02 / TARGETS</div><h3>Почтовые клиенты</h3></div>
+              <span id="selected-count" class="tag">0 выбрано</span>
+            </div>
+            <div id="targets" class="target-list" aria-label="Почтовые клиенты"></div>
+            <p class="hint usage-note">Рендеринг на устройствах расходует кредиты MailSlurp. Выберите только нужные клиенты.</p>
+            <button id="start-button" class="primary-button" type="submit">
+              <span id="button-label">Отправить и получить скриншоты</span><span aria-hidden="true">↗</span>
+            </button>
+          </form>
+        </section>
+
+        <section class="panel preview" aria-labelledby="results-title">
+          <div class="panel-heading">
+            <div><div class="step">03 / RESULTS</div><h2 id="results-title">Предпросмотр</h2></div>
+            <span id="run-status" class="state-pill">Ожидание</span>
+          </div>
+          <div id="empty-state" class="empty-state">
+            <div class="empty-illustration" aria-hidden="true"><span class="monitor">▣</span><span class="mobile">▯</span></div>
+            <h3>Здесь появятся скриншоты</h3>
+            <p>Заполните письмо слева, выберите устройства и запустите тест. Результаты отобразятся здесь.</p>
+            <div class="small-steps"><span>01 · Отправка</span><span>02 · Рендеринг</span><span>03 · Результат</span></div>
+          </div>
+          <div id="run-details" class="run-details hidden" aria-live="polite">
+            <div class="run-meta">
+              <span class="meta-label">Отправлено на</span>
+              <strong id="inbox-address">—</strong>
+            </div>
+            <div class="progress-top">
+              <span id="progress-label">Запускаем проверку…</span>
+              <span id="progress-value">—</span>
+            </div>
+            <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+            <p id="progress-message" class="muted">Подготавливаем тестовое письмо.</p>
+            <div id="target-statuses" class="status-list"></div>
+            <div id="gallery" class="gallery"></div>
+            <div id="run-error" class="error hidden" role="alert"></div>
+          </div>
+          <div id="global-error" class="error hidden" role="alert"></div>
+        </section>
+      </div>
+      <footer><span>MAILSLURP PREVIEW LAB</span><span>Тестовые письма · реальные клиенты · приватный API-ключ</span></footer>
+    </main>
+  </div>
+  <dialog id="lightbox" aria-label="Скриншот письма">
+    <div class="lightbox-header"><strong id="lightbox-title">Скриншот</strong><button id="lightbox-close" type="button" aria-label="Закрыть">✕</button></div>
+    <div class="lightbox-body"><img id="lightbox-image" alt="Увеличенный скриншот письма"></div>
+  </dialog>
+</body>
+</html>

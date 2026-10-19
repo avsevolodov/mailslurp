@@ -71,6 +71,7 @@ await Run("Normalizes target progress and private screenshot URLs", () =>
     Check(output.Screenshots[0].ImageUrl ==
         $"/api/runs/{runId}/screenshots/{screenshotId}", "private image proxy URL");
     Check(output.Screenshots[0].Title == "Gmail", "image title");
+    return Task.CompletedTask;
 });
 
 await Run("Screenshot access is scoped to run and provider results", () =>
@@ -84,6 +85,7 @@ await Run("Screenshot access is scoped to run and provider results", () =>
     store.MarkScreenshots(runId, [shotId]);
     Check(store.AllowsScreenshot(runId, shotId), "allowed image");
     Check(!store.AllowsScreenshot(Guid.NewGuid(), shotId), "other run blocked");
+    return Task.CompletedTask;
 });
 
 await Run("Provider errors never expose secret response bodies", async () =>
